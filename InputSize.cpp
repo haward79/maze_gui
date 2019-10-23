@@ -9,6 +9,7 @@ InputSize::InputSize(QWidget *parent) : QMainWindow(parent), ui(new Ui::InputSiz
 InputSize::~InputSize()
 {
     delete ui;
+    delete inputMaze;
 }
 
 void InputSize::load()
@@ -54,7 +55,7 @@ void InputSize::on_pushButton_ok_clicked()
     if(ui->lineEdit_height->text()!="" && ui->lineEdit_width->text()!="")
     {
         // Open input maze window.
-        inputMaze = new InputMaze;
+        inputMaze = new InputMaze(ui->lineEdit_height->text().toInt(), ui->lineEdit_width->text().toInt());
         inputMaze->show();
 
         // Close input maze size window.

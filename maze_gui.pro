@@ -25,7 +25,6 @@ HEADERS += \
     InputSize.h
 
 FORMS += \
-    InputMaze.ui \
     InputSize.ui
 
 # Default rules for deployment.

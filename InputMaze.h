@@ -13,6 +13,7 @@
         public:
             // Constructor.
             InputMaze(QWidget *parent = nullptr);
+            InputMaze(int, int);
 
             // Destructor.
             ~InputMaze();
