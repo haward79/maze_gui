@@ -22,7 +22,7 @@
         private:
             // Variable.
             Ui::InputMaze *ui;
-            int map[NutnDS_Maze::kMaxHeight][NutnDS_Maze::kMaxWidth];
+            NutnDS_Maze::Element map[NutnDS_Maze::kMaxHeight][NutnDS_Maze::kMaxWidth];
     };
 
 #endif

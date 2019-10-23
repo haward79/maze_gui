@@ -56,7 +56,6 @@ void InputSize::on_pushButton_ok_clicked()
     {
         // Open input maze window.
         inputMaze = new InputMaze(ui->lineEdit_height->text().toInt(), ui->lineEdit_width->text().toInt());
-        inputMaze->show();
 
         // Close input maze size window.
         this->close();
