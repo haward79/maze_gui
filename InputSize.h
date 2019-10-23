@@ -4,6 +4,7 @@
 
     #include <QMainWindow>
     #include "InputMaze.h"
+    #include "Maze.h"
 
     namespace Ui { class InputSize; }
 

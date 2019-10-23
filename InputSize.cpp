@@ -30,7 +30,7 @@ bool InputSize::isDigit(QString str) const
 
 void InputSize::on_lineEdit_height_textEdited(const QString& content)
 {
-    if(isDigit(content) && content.toInt()>0)
+    if(isDigit(content) && content.toInt()>0 && content.toInt()<=NutnDS_Maze::kMaxHeight)
         ui->statusbar_message->showMessage("");
     else
     {
@@ -41,7 +41,7 @@ void InputSize::on_lineEdit_height_textEdited(const QString& content)
 
 void InputSize::on_lineEdit_width_textEdited(const QString& content)
 {
-    if(isDigit(content) && content.toInt()>0)
+    if(isDigit(content) && content.toInt()>0 && content.toInt()<=NutnDS_Maze::kMaxWidth)
         ui->statusbar_message->showMessage("");
     else
     {

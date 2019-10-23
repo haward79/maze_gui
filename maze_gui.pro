@@ -17,12 +17,18 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     InputMaze.cpp \
+    Maze.cpp \
+    Point.cpp \
+    Size.cpp \
     main.cpp \
     InputSize.cpp
 
 HEADERS += \
     InputMaze.h \
-    InputSize.h
+    InputSize.h \
+    Maze.h \
+    Point.h \
+    Size.h
 
 FORMS += \
     InputSize.ui

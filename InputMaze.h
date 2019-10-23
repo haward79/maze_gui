@@ -3,6 +3,7 @@
     #define InputMaze_h
 
     #include <QMainWindow>
+    #include "Maze.h"
 
     namespace Ui { class InputMaze; }
 
@@ -21,6 +22,7 @@
         private:
             // Variable.
             Ui::InputMaze *ui;
+            int map[NutnDS_Maze::kMaxHeight][NutnDS_Maze::kMaxWidth];
     };
 
 #endif

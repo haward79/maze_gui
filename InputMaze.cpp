@@ -16,7 +16,9 @@ InputMaze::InputMaze(int height, int width)
     // Set window title.
     this->setWindowTitle("Input maze - Maze Solver");
 
-    // .
+    // Setup array.
+
+    // Generate maze on window.
 }
 
 // Destructor.
