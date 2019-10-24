@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>grass.png</file>
+        <file>mud.jpg</file>
+        <file>flag.png</file>
+    </qresource>
+</RCC>

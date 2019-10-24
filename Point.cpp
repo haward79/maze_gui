@@ -22,6 +22,12 @@ namespace NutnDS_Point
         size = 0;
     }
 
+    PointSet::PointSet(const PointSet& pointSet) : size(pointSet.size)
+    {
+        for(int i=0; i<kMaxPoint; ++i)
+            set[i] = new Point(pointSet.set[i]->getI(), pointSet.set[i]->getJ());
+    }
+
     // Destructor.
     PointSet::~PointSet()
     {
@@ -30,7 +36,7 @@ namespace NutnDS_Point
     }
 
     // Accesor.
-    const int PointSet::getPointI(int index) const
+    int PointSet::getPointI(int index) const
     {
         if(index>=0 && index<size)
             return set[index]->getI();
@@ -38,7 +44,7 @@ namespace NutnDS_Point
             return 0;
     }
 
-    const int PointSet::getPointJ(int index) const
+    int PointSet::getPointJ(int index) const
     {
         if(index>=0 && index<size)
             return set[index]->getJ();
@@ -46,7 +52,7 @@ namespace NutnDS_Point
             return 0;
     }
 
-    const bool PointSet::setPointI(int index, int value)
+    bool PointSet::setPointI(int index, int value)
     {
         if(index>=0 && index<size)
         {
@@ -57,7 +63,7 @@ namespace NutnDS_Point
             return false;
     }
     
-    const bool PointSet::setPointJ(int index, int value)
+    bool PointSet::setPointJ(int index, int value)
     {
         if(index>=0 && index<size)
         {

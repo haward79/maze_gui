@@ -9,10 +9,12 @@
 
     namespace NutnDS_Maze
     {
-        typedef enum Element {unknown, road, obstacle, wall, final} element;
+        typedef enum Element {unknown, road, obstacle, wall, start, final} element;
 
+        // Constant.
         const int kMaxHeight = 1000;
         const int kMaxWidth = 1000;
+        const int kMaxSolution = 10;
 
         class Maze
         {
@@ -25,9 +27,9 @@
                 ~Maze();
 
                 // Accessor.
-                const Size getSize() { return *size; }
-                const element getMap(int, int) const;
-                const int getNumSolution() const { return numSolution; }
+                Size getSize() { return *size; }
+                element getMap(int, int) const;
+                int getNumSolution() const { return numSolution; }
 
                 // Mutator.
                 bool setMap(int, int, element);
@@ -36,14 +38,16 @@
                 bool isInBoundary(int, int) const;
                 void printMap() const;
                 int solve(int, int);
-                void printSolution() const;
+                PointSet getSolution(int) const;
+                bool printSolution(int) const;
+                void printAllSolution() const;
 
             private:
                 // Variable.
                 Size* size;
                 element map[kMaxHeight][kMaxWidth];
                 int numSolution;
-                PointSet* solution;
+                PointSet* solution[kMaxSolution];
 
                 // Method.
                 void nextStep(int, int);

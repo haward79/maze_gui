@@ -13,7 +13,9 @@ namespace NutnDS_Maze
                 setMap(i, j, wall);
 
         numSolution = -1;
-        solution = new PointSet();
+
+        for(int i=0; i<kMaxSolution; ++i)
+            solution[i] = new PointSet();
     }
 
     Maze::Maze(int height, int width, element map[kMaxHeight][kMaxWidth])
@@ -31,18 +33,22 @@ namespace NutnDS_Maze
                 setMap(i, j, map[i][j]);
 
         numSolution = -1;
-        solution = new PointSet();
+        
+        for(int i=0; i<kMaxSolution; ++i)
+            solution[i] = new PointSet();
     }
 
     // Destructor.
     Maze::~Maze()
     {
         delete size;
-        delete solution;
+
+        for(int i=0; i<kMaxSolution; ++i)
+            delete solution[i];
     }
 
     // Accessor.
-    const element Maze::getMap(int indexI, int indexJ) const
+    element Maze::getMap(int indexI, int indexJ) const
     {
         if(isInBoundary(indexI, indexJ))
             return map[indexI][indexJ];
@@ -139,9 +145,38 @@ namespace NutnDS_Maze
     {
         ++numSolution;
         nextStep(startI, startJ);
+
+        return numSolution;
     }
 
-    void Maze::printSolution() const
+    PointSet Maze::getSolution(int index) const
+    {
+        if(index>=0 && index<numSolution)
+            return *(new PointSet(*solution[index]));
+        else
+            return *(new PointSet);
+    }
+
+    bool Maze::printSolution(int index) const
+    {
+        if(index>=0 && index<numSolution)
+        {
+            using std::cout;
+
+            cout << "\n" << solution[index]->getSize() << " steps in total.\n";
+
+            for(int i=0; i<solution[index]->getSize(); ++i)
+                printf("- Step %2d: (%2d, %2d)\n", i+1, solution[index]->getPointI(i), solution[index]->getPointJ(i));
+            
+            cout << "\n";
+
+            return true;
+        }
+        else
+            return false;
+    }
+
+    void Maze::printAllSolution() const
     {
         using std::cout;
 
@@ -149,12 +184,16 @@ namespace NutnDS_Maze
 
         if(numSolution > 0)
         {
-            cout << "    " << solution->getSize() << " steps in total.\n";
+            for(int i=0; i<numSolution; ++i)
+            {
+                cout << "\nNo. " << i+1 << " solution.\n";
+                cout << "  " << solution[i]->getSize() << " steps in total.\n";
 
-            for(int i=0; i<solution->getSize(); ++i)
-                printf("        Step %2d: (%2d, %2d)\n", i+1, solution->getPointI(i), solution->getPointJ(i));
-            
-            cout << "\n";
+                for(int j=0; j<solution[i]->getSize(); ++j)
+                    printf("  - Step %2d: (%2d, %2d)\n", j+1, solution[i]->getPointI(j), solution[i]->getPointJ(j));
+                
+                cout << "\n";
+            }
         }
         else
             cout << "\n";
@@ -164,7 +203,7 @@ namespace NutnDS_Maze
     {
         if(numSolution<=0 && isInBoundary(indexI, indexJ) && (map[indexI][indexJ]==road || map[indexI][indexJ]==final))
         {
-            solution->push(indexI, indexJ);
+            solution[numSolution]->push(indexI, indexJ);
 
             if(map[indexI][indexJ] == final)
                 ++numSolution;
@@ -185,7 +224,7 @@ namespace NutnDS_Maze
             }
 
             if(numSolution <= 0)
-                solution->pop();
+                solution[numSolution]->pop();
         }
     }
 }

@@ -19,7 +19,9 @@ SOURCES += \
     InputMaze.cpp \
     Maze.cpp \
     Point.cpp \
+    QButton.cpp \
     Size.cpp \
+    SolveMaze.cpp \
     main.cpp \
     InputSize.cpp
 
@@ -28,12 +30,18 @@ HEADERS += \
     InputSize.h \
     Maze.h \
     Point.h \
-    Size.h
+    QButton.h \
+    Size.h \
+    SolveMaze.h
 
 FORMS += \
-    InputSize.ui
+    InputSize.ui \
+    SolveMaze.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+RESOURCES += \
+    resource.qrc

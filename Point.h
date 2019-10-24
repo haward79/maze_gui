@@ -12,8 +12,8 @@
                 Point(int, int);
 
                 // Accessor.
-                const int getI() const { return i; }
-                const int getJ() const { return j; }
+                int getI() const { return i; }
+                int getJ() const { return j; }
 
                 // Mutator.
                 void setI(int i) { this->i = i; }
@@ -33,18 +33,19 @@
             public:
                 // Constructor.
                 PointSet();
+                PointSet(const PointSet&);
 
                 // Destructor.
                 ~PointSet();
 
                 // Accesor.
-                const int getPointI(int) const;
-                const int getPointJ(int) const;
-                const int getSize() const { return size; }
+                int getPointI(int) const;
+                int getPointJ(int) const;
+                int getSize() const { return size; }
 
                 // Mutator.
-                const bool setPointI(int, int);
-                const bool setPointJ(int, int);
+                bool setPointI(int, int);
+                bool setPointJ(int, int);
 
                 // Method.
                 Point* pop();
