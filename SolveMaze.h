@@ -14,14 +14,13 @@
         public:
             // Constructor.
             explicit SolveMaze(QWidget *parent = nullptr);
-            explicit SolveMaze(int, int, NutnDS_Maze::Element[NutnDS_Maze::kMaxHeight][NutnDS_Maze::kMaxWidth]);
+            explicit SolveMaze(int, int, NutnDS_Maze::Element[NutnDS_Maze::kMaxHeight][NutnDS_Maze::kMaxWidth], const Point*);
 
             // Destructor.
             ~SolveMaze();
 
         private:
             // Variable.
-            Ui::SolveMaze *ui;
             QStatusBar* statusbar_readme;
     };
 

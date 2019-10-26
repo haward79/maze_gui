@@ -12,8 +12,8 @@
         typedef enum Element {unknown, road, obstacle, wall, start, final} element;
 
         // Constant.
-        const int kMaxHeight = 1000;
-        const int kMaxWidth = 1000;
+        const int kMaxHeight = 200;
+        const int kMaxWidth = 200;
         const int kMaxSolution = 10;
 
         class Maze
@@ -50,7 +50,7 @@
                 PointSet* solution[kMaxSolution];
 
                 // Method.
-                void nextStep(int, int);
+                void nextStep(int, int, bool);
         };
     }
 

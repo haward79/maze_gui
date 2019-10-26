@@ -9,7 +9,6 @@ InputSize::InputSize(QWidget *parent) : QMainWindow(parent), ui(new Ui::InputSiz
 InputSize::~InputSize()
 {
     delete ui;
-    delete inputMaze;
 }
 
 void InputSize::load()

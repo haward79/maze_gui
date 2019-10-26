@@ -1,7 +1,8 @@
 <RCC>
     <qresource prefix="/">
-        <file>grass.png</file>
-        <file>mud.jpg</file>
-        <file>flag.png</file>
+        <file>final.png</file>
+        <file>start.png</file>
+        <file>road.png</file>
+        <file>wall.png</file>
     </qresource>
 </RCC>

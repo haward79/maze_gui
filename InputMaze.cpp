@@ -1,19 +1,15 @@
+#include <QtWidgets>
 #include <QWidget>
+#include <QScrollArea>
 #include <QPushButton>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
-#include <QPixmap>
 #include "InputMaze.h"
-#include "ui_InputMaze.h"
 
 // Constructor.
-InputMaze::InputMaze(QWidget *parent) : QMainWindow(parent), ui(new Ui::InputMaze)
+InputMaze::InputMaze()
 {
-    ui->setupUi(this);
-
-    // Set window title.
-    this->setWindowTitle("Input maze - Maze Solver");
-    this->show();
+    startPos = new Point();
 }
 
 InputMaze::InputMaze(int height, int width)
@@ -28,6 +24,9 @@ InputMaze::InputMaze(int height, int width)
     // Use namespace.
     using namespace NutnDS_Maze;
 
+    // Setup start position.
+    startPos = new Point();
+
     // Setup array.
     for(int i=0; i<height; ++i)
         for(int j=0; j<width; ++j)
@@ -35,7 +34,6 @@ InputMaze::InputMaze(int height, int width)
 
     // Generate maze selection block.
     const int kButtonSize = 30;
-    QButton* mapGui[kMaxHeight][kMaxWidth];
     QHBoxLayout* hBoxLayout_row[kMaxWidth];
     QVBoxLayout* vBoxLayout_main = new QVBoxLayout;
     QPalette palette;
@@ -58,13 +56,13 @@ InputMaze::InputMaze(int height, int width)
             mapGui[i][j]->setMaximumSize(*(new QSize(kButtonSize, kButtonSize)));
             mapGui[i][j]->setFlat(true);
             mapGui[i][j]->setAutoFillBackground(true);
-            mapGui[i][j]->setStyleSheet("border:1px solid #000000; background-image:url(:/grass.png);");
+            mapGui[i][j]->setStyleSheet("border:1px solid #000000; background-image:url(:/wall.png);");
 
             hBoxLayout_row[i]->addWidget(mapGui[i][j]);
 
             // Connect events for each map selection button.
             connect(mapGui[i][j], SIGNAL(clicked()), this, SLOT(markMapSelection()));
-            connect(mapGui[i][j], SIGNAL(rightClicked()), this, SLOT(markMapFinal()));
+            connect(mapGui[i][j], SIGNAL(rightClicked()), this, SLOT(markMapSatrtFinal()));
         }
     }
 
@@ -79,24 +77,47 @@ InputMaze::InputMaze(int height, int width)
     // Generate status bar.
     statusbar_readme = new QStatusBar;
     vBoxLayout_main->addWidget(statusbar_readme);
-    statusbar_readme->showMessage(" >> Click blocks to mark wall, road, and final.");
+    statusbar_readme->showMessage(" >> Click blocks to mark wall, road, start, and final.");
 
     // Generate widget to be attached by map selection block.
     QWidget* widget = new QWidget;
     widget->setLayout(vBoxLayout_main);
 
-    // Setup input maze window.
-    this->setCentralWidget(widget);
-    this->setMaximumSize(*(new QSize(kButtonSize*width, kButtonSize*height+30+20)));
-    this->setMinimumSize(*(new QSize(kButtonSize*width, kButtonSize*height+30+20)));
-    this->show();
+    // Setup window size.
+    const int kMaxWindowSize = int(QGuiApplication::primaryScreen()->geometry().height() * 0.9);
+    int windowWidth = (kButtonSize*width<=kMaxWindowSize) ? kButtonSize*width : kMaxWindowSize;
+    int windowHeight = (kButtonSize*height+30+20<=kMaxWindowSize) ? kButtonSize*height+30+20 : kMaxWindowSize;
+
+    // Generate scroll bar.
+    QScrollArea* scroller = new QScrollArea;
+    if(windowHeight==kMaxWindowSize || windowWidth==kMaxWindowSize)
+    {
+        scroller->setWidget(widget);
+        scroller->setWidgetResizable(false);
+
+        this->setMaximumSize(*(new QSize(windowWidth, windowHeight)));
+        this->setMinimumSize(*(new QSize(windowWidth, windowHeight)));
+
+        // Setup input maze window.
+        this->setCentralWidget(scroller);
+        this->show();
+    }
+    else
+    {
+        this->setMaximumSize(*(new QSize(windowWidth, windowHeight)));
+        this->setMinimumSize(*(new QSize(windowWidth, windowHeight)));
+
+        // Setup input maze window.
+        this->setCentralWidget(widget);
+        this->show();
+    }
 }
 
 // Destructor.
 InputMaze::~InputMaze()
 {
-    delete ui;
     delete statusbar_readme;
+    delete startPos;
 }
 
 // Method.
@@ -109,62 +130,95 @@ void InputMaze::markMapSelection()
     if(map[indexI][indexJ] == NutnDS_Maze::wall)
     {
         map[indexI][indexJ] = NutnDS_Maze::road;
-        obj->setStyleSheet("border:1px solid #000000; background-image:url(:/mud.jpg);");
+        obj->setStyleSheet("border:1px solid #000000; background-image:url(:/road.png);");
     }
     else
     {
         map[indexI][indexJ] = NutnDS_Maze::wall;
-        obj->setStyleSheet("border:1px solid #000000; background-image:url(:/grass.png);");
+        obj->setStyleSheet("border:1px solid #000000; background-image:url(:/wall.png);");
     }
 }
 
-void InputMaze::markMapFinal()
+void InputMaze::markMapSatrtFinal()
 {
     QPushButton* obj = static_cast<QPushButton*>(sender());
     int indexI = obj->objectName().replace(0, 23, "").split("-").at(0).toInt();
     int indexJ = obj->objectName().replace(0, 23, "").split("-").at(1).toInt();
 
-    if(map[indexI][indexJ] == NutnDS_Maze::final)
+    if(map[indexI][indexJ] == NutnDS_Maze::start)
     {
-        map[indexI][indexJ] = NutnDS_Maze::wall;
-        obj->setStyleSheet("border:1px solid #000000; background-image:url(:/grass.png);");
+        map[indexI][indexJ] = NutnDS_Maze::final;
+        obj->setStyleSheet("border:1px solid #000000; background-image:url(:/final.png);");
     }
     else
     {
-        map[indexI][indexJ] = NutnDS_Maze::final;
-        obj->setStyleSheet("border:1px solid #000000; background-image:url(:/flag.png);");
+        map[indexI][indexJ] = NutnDS_Maze::start;
+        obj->setStyleSheet("border:1px solid #000000; background-image:url(:/start.png);");
     }
 }
 
 void InputMaze::solvingMaze()
 {
+    bool check = false;
+
+    // Check if exact one start marked.
+    for(int i=0; i<height; ++i)
+    {
+        for(int j=0; j<width; ++j)
+        {
+            if(map[i][j] == NutnDS_Maze::start)
+            {
+                if(check)
+                {
+                    i = -1;
+                    break;
+                }
+                else
+                {
+                    check = true;
+                    startPos->setI(i);
+                    startPos->setJ(j);
+                }
+            }
+        }
+
+        if(i == -1)
+        {
+            check = false;
+            break;
+        }
+    }
+
+    if(!check)
+    {
+        statusbar_readme->showMessage(" >> None or more than one start marked.");
+        return ;
+    }
+
     // Check if final marked.
-    bool hasFinal = false;
+    check = false;
     for(int i=0; i<height; ++i)
     {
         for(int j=0; j<width; ++j)
         {
             if(map[i][j] == NutnDS_Maze::final)
             {
-                hasFinal = true;
+                check = true;
                 break;
             }
         }
 
-        if(hasFinal)
+        if(check)
             break;
     }
 
-    if(!hasFinal)
+    if(!check)
     {
         statusbar_readme->showMessage(" >> Please mark final.");
         return ;
     }
 
     // Open solving maze window.
-    solveMaze = new SolveMaze(height, width, map);
-
-    // Close input maze window.
-    this->close();
+    solveMaze = new SolveMaze(height, width, map, startPos);
 }
 

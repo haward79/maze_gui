@@ -143,8 +143,10 @@ namespace NutnDS_Maze
 
     int Maze::solve(int startI, int startJ)
     {
+        bool isSolved = false;
+
         ++numSolution;
-        nextStep(startI, startJ);
+        nextStep(startI, startJ, isSolved);
 
         return numSolution;
     }
@@ -199,26 +201,32 @@ namespace NutnDS_Maze
             cout << "\n";
     }
 
-    void Maze::nextStep(int indexI, int indexJ)
+    void Maze::nextStep(int indexI, int indexJ, bool isSolved)
     {
+        if(isSolved)
+            return ;
+
         if(numSolution<=0 && isInBoundary(indexI, indexJ) && (map[indexI][indexJ]==road || map[indexI][indexJ]==final))
         {
             solution[numSolution]->push(indexI, indexJ);
 
             if(map[indexI][indexJ] == final)
+            {
+                isSolved = true;
                 ++numSolution;
+            }
             else
             {
                 map[indexI][indexJ] = obstacle;
 
-                nextStep(indexI+1, indexJ);
-                nextStep(indexI-1, indexJ);
-                nextStep(indexI, indexJ+1);
-                nextStep(indexI, indexJ-1);
-                nextStep(indexI+1, indexJ+1);
-                nextStep(indexI+1, indexJ-1);
-                nextStep(indexI-1, indexJ+1);
-                nextStep(indexI-1, indexJ-1);
+                nextStep(indexI+1, indexJ, isSolved);
+                nextStep(indexI-1, indexJ, isSolved);
+                nextStep(indexI, indexJ+1, isSolved);
+                nextStep(indexI, indexJ-1, isSolved);
+                nextStep(indexI+1, indexJ+1, isSolved);
+                nextStep(indexI+1, indexJ-1, isSolved);
+                nextStep(indexI-1, indexJ+1, isSolved);
+                nextStep(indexI-1, indexJ-1, isSolved);
 
                 map[indexI][indexJ] = road;
             }

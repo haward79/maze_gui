@@ -4,6 +4,7 @@
 
     #include <QMainWindow>
     #include <QMouseEvent>
+    #include "QButton.h"
     #include "Maze.h"
     #include "SolveMaze.h"
     #include "QButton.h"
@@ -16,7 +17,7 @@
 
         public:
             // Constructor.
-            InputMaze(QWidget *parent = nullptr);
+            InputMaze();
             InputMaze(int, int);
 
             // Destructor.
@@ -26,13 +27,15 @@
             // Variable.
             Ui::InputMaze *ui;
             int height, width;
+            Point* startPos;
             NutnDS_Maze::Element map[NutnDS_Maze::kMaxHeight][NutnDS_Maze::kMaxWidth];
+            QButton* mapGui[NutnDS_Maze::kMaxHeight][NutnDS_Maze::kMaxWidth];
             SolveMaze* solveMaze;
             QStatusBar* statusbar_readme;
 
         private slots:
             void markMapSelection();
-            void markMapFinal();
+            void markMapSatrtFinal();
             void solvingMaze();
 
         signals:

@@ -24,15 +24,15 @@ namespace NutnDS_Point
 
     PointSet::PointSet(const PointSet& pointSet) : size(pointSet.size)
     {
-        for(int i=0; i<kMaxPoint; ++i)
+        for(int i=0; i<size; ++i)
             set[i] = new Point(pointSet.set[i]->getI(), pointSet.set[i]->getJ());
     }
 
     // Destructor.
     PointSet::~PointSet()
     {
-        for(int i=0; i<kMaxPoint; ++i)
-            delete set[i];
+        /*for(int i=0; i<kMaxPoint; ++i)
+            delete set[i];*/
     }
 
     // Accesor.

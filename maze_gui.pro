@@ -35,8 +35,7 @@ HEADERS += \
     SolveMaze.h
 
 FORMS += \
-    InputSize.ui \
-    SolveMaze.ui
+    InputSize.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
