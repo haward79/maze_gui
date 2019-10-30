@@ -48,7 +48,7 @@
                 bool setPointJ(int, int);
 
                 // Method.
-                Point* pop();
+                Point pop();
                 bool push(int, int);
 
             private:

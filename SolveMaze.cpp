@@ -18,7 +18,9 @@ SolveMaze::SolveMaze(int height, int width, NutnDS_Maze::Element map[NutnDS_Maze
     // Print info.
     QMessageBox* qm = new QMessageBox;
 
-    qm->setText("[Maze Info]\nSize : " + QString::number(height) + ", " + QString::number(width) + "\nStart : " + QString::number(startPos->getI()+1) + ", " + QString::number(startPos->getJ()+1));
+    qm->setFont(QFont("Arial", 12));
+    qm->setWindowTitle("Message - Maze Solver");
+    qm->setText("[ Maze Info ]\nSize : " + QString::number(height) + " x " + QString::number(width) + "\nStart : (" + QString::number(startPos->getI()+1) + ", " + QString::number(startPos->getJ()+1) + ")");
     qm->show();
 
     // Set window title.
@@ -121,7 +123,7 @@ SolveMaze::SolveMaze(int height, int width, NutnDS_Maze::Element map[NutnDS_Maze
         this->setMaximumSize(*(new QSize(windowWidth, windowHeight)));
         this->setMinimumSize(*(new QSize(windowWidth, windowHeight)));
 
-        // Setup input maze window.
+        // Setup solved maze window.
         this->setCentralWidget(scroller);
         this->show();
     }
@@ -130,7 +132,7 @@ SolveMaze::SolveMaze(int height, int width, NutnDS_Maze::Element map[NutnDS_Maze
         this->setMaximumSize(*(new QSize(windowWidth, windowHeight)));
         this->setMinimumSize(*(new QSize(windowWidth, windowHeight)));
 
-        // Setup input maze window.
+        // Setup solved maze window.
         this->setCentralWidget(widget);
         this->show();
     }

@@ -75,15 +75,15 @@ namespace NutnDS_Point
     }
 
     // Method.
-    Point* PointSet::pop()
+    Point PointSet::pop()
     {
         if(size > 0)
         {
             --size;
-            return new Point(set[size]->getI(), set[size]->getJ());
+            return Point(set[size]->getI(), set[size]->getJ());
         }
         else
-            return new Point();
+            return Point();
     }
 
     bool PointSet::push(int i, int j)

@@ -4,6 +4,7 @@
 #include <QPushButton>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
+#include <QMessageBox>
 #include "InputMaze.h"
 
 // Constructor.
@@ -111,6 +112,14 @@ InputMaze::InputMaze(int height, int width)
         this->setCentralWidget(widget);
         this->show();
     }
+
+    // Show tip message.
+    QMessageBox* qm = new QMessageBox;
+
+    qm->setFont(QFont("Arial", 12));
+    qm->setWindowTitle("Tips - Maze Solver");
+    qm->setText("== Usage ==\n ⯄ Mouse left click on blocks to toggle between wall(green) and road(red).\n ⯄ Mouse right click on blocks to toggle between start(white-black flag) and final(red flag).\n ⯄ Note : There must be exact one start. Final can be one or more.");
+    qm->show();
 }
 
 // Destructor.

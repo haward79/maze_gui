@@ -154,9 +154,9 @@ namespace NutnDS_Maze
     PointSet Maze::getSolution(int index) const
     {
         if(index>=0 && index<numSolution)
-            return *(new PointSet(*solution[index]));
+            return PointSet(*solution[index]);
         else
-            return *(new PointSet);
+            return PointSet();
     }
 
     bool Maze::printSolution(int index) const
