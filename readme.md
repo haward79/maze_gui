@@ -42,6 +42,17 @@ Compile this program by using the following command in cmd, powershell, or termi
     # Run program.
     $ ./[program_name]
 
+# Snapshots
+Step 1. Input dimension of maze.  
+![Input maze size](Snapshots/1.png)
+
+Step 2. Mark the blocks.  
+![Tips for maze input](Snapshots/2.png)
+![Input maze](Snapshots/3.png)
+
+Step 3. Plan the route.  
+![Result](Snapshots/4.png)
+
 # Copyright
 This program is developed by haward79:  
 [haward79's personal website](https://www.haward79.tw/)

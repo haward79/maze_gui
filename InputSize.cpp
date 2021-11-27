@@ -1,5 +1,6 @@
 #include "InputSize.h"
 #include "ui_InputSize.h"
+#include <QRegularExpression>
 
 InputSize::InputSize(QWidget *parent) : QMainWindow(parent), ui(new Ui::InputSize)
 {
@@ -19,9 +20,9 @@ void InputSize::load()
 
 bool InputSize::isDigit(QString str) const
 {
-    QRegExp regexp("\\d*");
+    QRegularExpression regexp("[0-9]*");
 
-    if(regexp.exactMatch(str))
+    if(regexp.match(str).hasMatch())
         return true;
     else
         return false;

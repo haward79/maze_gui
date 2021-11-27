@@ -67,7 +67,7 @@ SolveMaze::SolveMaze(int height, int width, NutnDS_Maze::Element map[NutnDS_Maze
     QPalette palette;
 
     vBoxLayout_main->setSpacing(0);
-    vBoxLayout_main->setMargin(0);
+    vBoxLayout_main->setContentsMargins(0, 0, 0, 0);
 
     for(int i=0; i<height; ++i)
     {
